@@ -1,0 +1,19 @@
+{
+  "name": "markov_machine",
+  "version": "1.0.0",
+  "description": "Markov Machine that makes word salads",
+  "main": "makeText.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "mygit.com"
+  },
+  "keywords": [
+    "Markov",
+    "Machine"
+  ],
+  "author": "RalphsCode",
+  "license": "ISC"
+}
