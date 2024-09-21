@@ -20,22 +20,22 @@ class MarkovMachine {
   makeChains(text) {
     // Argument: [ 'the', 'cat', 'in', 'the', 'hat' ]
     console.log("### text argument:", text);
-    let word_dict = {};
+    let wordDict = {};
     
     for (let i=0; i<text.length; i++) {
       let word = text[i];
-      let next_word = text[i+1];
-      if (next_word == undefined) {
-        next_word = null;
+      let nextWord = text[i+1];
+      if (nextWord == undefined) {
+        nextWord = null;
       }
-      if (word_dict[word]) {
-        word_dict[word].push(next_word);
+      if (wordDict[word]) {
+        wordDict[word].push(nextWord);
       } else {
-        word_dict[word] = [next_word];
+        wordDict[word] = [nextWord];
       }
-      console.log("### word_dict:", word_dict);
+      console.log("### wordDict:", wordDict);
       }
-      return word_dict;
+      return wordDict;
   }
 
 
