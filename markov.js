@@ -7,6 +7,8 @@ class MarkovMachine {
 
   constructor(text) {
     this.wordDict = {};
+    this.previousWord = "";
+    this.newSentance = [];
     let words = text.split(/[ \r\n]+/);
     this.words = words.filter(c => c !== "");
     this.makeChains(this.words);
@@ -48,22 +50,39 @@ class MarkovMachine {
     const randomIndex = Math.floor(Math.random() * keys.length);
     const randomKey = keys[randomIndex];
 
-    let newSentance = [];
     const firstWord = this.wordDict[randomKey][0];
     console.log("## firstWord:",firstWord);
-    newSentance.push(firstWord);
-
-    // Get a random 2nd word
-    const wordsAvailable = this.wordDict[firstWord]
-    const randomElement = Math.floor(Math.random() * wordsAvailable.length);
-    const secondWord = this.wordDict[firstWord][randomElement];
-    newSentance.push(secondWord);
-    console.log(newSentance);
+    this.newSentance.push(firstWord);
+    this.getNextWord(firstWord, numWords);
   }
-}
 
-words = new MarkovMachine("the cat in the hat is in the hat");
-words.makeText();
+  getNextWord(previousWord, numWords){
+    // Get a random next word
+    let count = 1;
+
+    do {
+      // Make a list of words available
+      const wordsAvailable = this.wordDict[previousWord];
+      // Create a random number to pick a word from the list
+      const randomElement = Math.floor(Math.random() * wordsAvailable.length);
+      const nextWord = this.wordDict[previousWord][randomElement];
+      // Handle if the nextWord is null
+      if (nextWord !== null) {
+        this.newSentance.push(nextWord);
+        previousWord = nextWord;
+        console.log(this.newSentance);
+        count++;
+      } // END if
+    } while (
+      count < numWords
+  );
+  return this.newSentance;
+  }  // END getNextWord()
+
+}  // END MarkovMachine
+
+words = new MarkovMachine("the cat in the hat is in the hat and sat on the flat cat");
+words.makeText(15);
 
 
 
