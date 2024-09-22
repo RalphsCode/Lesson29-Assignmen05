@@ -6,10 +6,10 @@ class MarkovMachine {
   /** build markov machine; read in text.*/
 
   constructor(text) {
-    this.wordDict = {};
+    this.wordDict = {};         // word chains
     this.previousWord = "";
-    this.newSentance = [];
-    let words = text.split(/[ \r\n]+/);
+    this.newSentenceArr = [];   // stores the new word order
+    let words = text.split(/[ \r\n,.;!?'"()\-]+/);
     this.words = words.filter(c => c !== "");
     this.makeChains(this.words);
   }
@@ -20,24 +20,31 @@ class MarkovMachine {
    *  {"the": ["cat", "hat"], "cat": ["in"], "in": ["the"], "hat": [null]} */
 
   makeChains(text) {
-    /* Make a dictionary of the word chains */
+    /* Make a dictionary to store the word chains */
     
-    for (let i=0; i<text.length; i++) {
-
+    // Loop for every word in the passed in text
+    for (let i=0; i<=text.length; i++) {
+      // Get a word, and the next word after it
       let word = text[i];
       let nextWord = text[i+1];
-      // If at the end of the sentance
-      if (nextWord == undefined) {
-        nextWord = null;
-      }
-      
-      if (this.wordDict[word]) {
-        this.wordDict[word].push(nextWord);
-      } else {
-        this.wordDict[word] = [nextWord];
-      }
-      }
-      console.log("wordDict:", this.wordDict);
+      // If word is the last word in the provided text use null as the next word
+
+
+      if (nextWord !== undefined) {
+        
+          // Add the words to the words chain dictionary
+
+          // if the word is already a key in the dict, add the next word as a value
+          if (this.wordDict[word]) {
+            this.wordDict[word].push(nextWord);
+          } else {
+            // if the word is not already a key, add it and add the next word as a value
+            this.wordDict[word] = [nextWord];
+          }
+      }  // END if...
+
+      }  // END for... loop
+      console.log(this.wordDict);
       return this.wordDict;
   }
 
@@ -49,10 +56,10 @@ class MarkovMachine {
     const keys = Object.keys(this.wordDict);
     const randomIndex = Math.floor(Math.random() * keys.length);
     const randomKey = keys[randomIndex];
-
+    // Set the first word
     const firstWord = this.wordDict[randomKey][0];
-    console.log("## firstWord:",firstWord);
-    this.newSentance.push(firstWord);
+    // Add the firstWord to the new sentence array
+    this.newSentenceArr.push(firstWord);
     this.getNextWord(firstWord, numWords);
   }
 
@@ -68,21 +75,21 @@ class MarkovMachine {
       const nextWord = this.wordDict[previousWord][randomElement];
       // Handle if the nextWord is null
       if (nextWord !== null) {
-        this.newSentance.push(nextWord);
+        this.newSentenceArr.push(nextWord);
         previousWord = nextWord;
-        console.log(this.newSentance);
         count++;
       } // END if
     } while (
       count < numWords
   );
-  return this.newSentance;
+  // Change list of words into a sentence
+  const sentence = this.newSentenceArr.join(" ");
+  console.log(sentence);
+  return sentence;
   }  // END getNextWord()
 
 }  // END MarkovMachine
 
-words = new MarkovMachine("the cat in the hat is in the hat and sat on the flat cat");
-words.makeText(15);
+words = new MarkovMachine("I am Daniel I am Sam Sam I am That Sam-I-am That Sam-I-am! I do not like That Sam-I-am. Do you like Green eggs and ham I do not like them, Sam-I-am. I do not like Green eggs and ham. Would you like them Here or there? I would not like them Here or there. I would not like them Anywhere. I do not like green eggs and ham");
 
-
-
+words.makeText();
