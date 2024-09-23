@@ -89,9 +89,14 @@ class MarkovMachine {
 
 }  // END MarkovMachine
 
-module.exports = MarkovMachine;
+module.exports = { MarkovMachine };
 
-words = new MarkovMachine("I am Daniel I am Sam Sam I am That Sam-I-am That Sam-I-am! I do not like That Sam-I-am. Do you like Green eggs and ham I do not like them, Sam-I-am. I do not like Green eggs and ham. Would you like them Here or there? I would not like them Here or there. I would not like them Anywhere. I do not like green eggs and ham");
+function init() {
+  words = new MarkovMachine("I am Daniel I am Sam Sam I am That Sam-I-am That Sam-I-am! I do not like That Sam-I-am. Do you like Green eggs and ham I do not like them, Sam-I-am. I do not like Green eggs and ham. Would you like them Here or there? I would not like them Here or there. I would not like them Anywhere. I do not like green eggs and ham");
 
-words.makeText();
+  words.makeText();
+}
 
+// ================================
+// UNCOMMENT BELOW TO RUN THIS FILE:
+// init();
